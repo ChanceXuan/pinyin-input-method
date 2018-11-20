@@ -46,6 +46,11 @@ P(Wi|Wi-1) = f(W Wi-1)/f[Wi-1]
 ## 实验结果
 通过基于字的二元关系模型算法，拼音输入法结果的准确率可以达到75%以上，并且从命令行中的结果可以看到，加入OpenList后的动态规划过程比按层评估的动态规划过程（计算每一个字的最优结果，向后扩展）步骤数要少很多，在实际过程中可以大大减少拼音输入的响应时间。
 
+最终，运行```accuracy_test.py```可以得到正确率：
+>字符数 = 7471<br/>
+>正确数 = 5574<br/>
+>正确率 = 74.6%<br/>
+
 ## 总结
 在本次算法实现的过程中，利用字的二元关系和动态规划的思想实现了输入法，从多种途径获得数据，从数据中训练程序，具有了初步的人工智能思想。不过从输出结果的不足中可以看到，本次程序还有很多弊端，还有不少可能可以改进的方法。具体可能有以下手段：
 
@@ -59,28 +64,33 @@ P(Wi|Wi-1) = f(W Wi-1)/f[Wi-1]
 ```
 pinyin-input-method
 │
-├── README.md 					说明文档
+├── README.md 				说明文档
 │
 ├── src
-│	└── pinyin_bigram_char.py	基于字的二元关系程序
-│   
+│	├── pinyin_bigram_char.py 	基于字的二元关系程序
+│	└── accuracy_test.py 		准确率测试
+│
 ├── resource
-│	├── 拼音汉字表.txt 			
+│	├── 拼音汉字表.txt
 │	├── 一二级汉字表.txt
-│   └── sina_news_gbk
+│	├── test-set.txt 		测试集
+│	└── sina_news_gbk
 │		├── 2016-11.txt
 │		├── 2016-10.txt
 │		└── 2016-09.txt
 │
-└──data
-	├── input.txt 				网上数据输入
-	├── output.txt 				网上数据输出
-	├── input_validation.txt
-	├── output_validation.txt
-	├── p_char.pkl 				单字出现概率矩阵文件
-	└── p_matrix.pkl 			两字共现概率矩阵文件
+└── data
+	├── input.txt 			简单数据输入
+	├── output.txt 			简单数据输出
+	├── input-evaluation.txt 	由测试集得出的输入
+	├── output-evaluation.txt 	由测试集得出的输出
+	├── correct-answer.txt 		测试集中正确的汉字结果
+	├── p_char.pkl 			单字出现概率矩阵文件
+	└── p_matrix.pkl 		两字共现概率矩阵文件
 ```
 #### 运行方式说明
-* cd pinyin-input-method/src
-* ```python3 pinyin_bigram_char.py```可以从键盘读入数据
-* ```python3 pinyin_bigram_char.py ../data/input.txt```可以从```input.txt```读入数据输出到```output.txt```
+* 进入源代码文件夹```cd pinyin-input-method/src```，有三种效果查看方式：
+	* ```python3 pinyin_bigram_char.py```可以从键盘读入数据
+	* ```python3 pinyin_bigram_char.py ../data/input.txt```可以从```input.txt```读入数据输出到```output.txt```	
+	* ```python3 pinyin_bigram_char.py ../data/input-evaluation.txt ../data/output-evaluation.txt```可以从```input-evaluation.txt```读入数据输出到```output.txt-evaluation```
+* ```python3 accuracy_test.py```可以得出算法在测试集下的正确率

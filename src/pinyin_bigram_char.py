@@ -71,6 +71,7 @@ def dict_gen(char, table):
     return pinyin_dict
 
 def dp(input, pinyin_dict, p_char, p_matrix):
+
     # input指第i句话，以列表的形式存放了这句话中的每个字作为元素
     row = 0
     print(input)
@@ -146,15 +147,24 @@ if (len(sys.argv) == 1):
         break
 
 if (len(sys.argv) == 2):
+    print ('Please specify input and output both at once!\n')
+    exit()
+
+if (len(sys.argv) == 3):
     try:
         input = open(sys.argv[1], "r", encoding = "utf-8").read().splitlines()
     except:
         print ('No such file!\n')
         exit()
-# input = open('../data/input_validation.txt').read().splitlines()
+
+for i in range(len(input)):
+    if input[i].find('v'):
+        temp = input[i].replace('v', 'u')
+        input[i] = temp
+
 input_list = list()
 for i in range(0,len(input)):
-    input_list.append((input[i]).split(" "))
+    input_list.append((input[i]).lower().split(" "))
 print('\n输入拼音为：')
 
 char_open = open('../resource/一二级汉字表.txt',encoding='gbk').read()       
@@ -171,6 +181,7 @@ else:
     file_open = open('../resource/sina_news_gbk/2016-11.txt',encoding='gbk').read()\
                 + open('../resource/sina_news_gbk/2016-10.txt',encoding='gbk').read()\
                 + open('../resource/sina_news_gbk/2016-09.txt',encoding='gbk').read()\
+    
     dict_open = open("../resource/拼音汉字表.txt",encoding = 'gbk').read()
 
     # 进行数据处理，得出汉字表索引，以及用汉字索引值表示的文字
@@ -188,8 +199,8 @@ for i in range(0,len(input_list)):
     sentence = dp(input_list[i], pinyin_dict, p_char, p_matrix)
     output_list.append(sentence)
 
-with open("../data/output.txt","w") as f:
-    f.write('输出结果为：\n')
+with open(sys.argv[2],"w") as f:
+    f.write('')
 
 print('\n输出结果为：')
 for i in range(0,len(output_list)):
@@ -197,5 +208,5 @@ for i in range(0,len(output_list)):
     for j in output_list[i]:
         sentence = sentence + char_open[j]
     print(sentence)
-    with open("../data/output.txt","a") as f:
+    with open(sys.argv[2],"a") as f:
         f.write(sentence + '\n')
